@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         ZariffsCheats
+// @name         Blooket Helper
 // @namespace    https://*.blooket.com/*
-// @version      1.5
-// @description  Little children are my fav
+// @version      02.3
+// @description  MaTsut was here
 // @author       Zariffs
 // @match        https://*.blooket.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=blooket.com
@@ -194,7 +194,7 @@
                     display: "flex",
                     flexDirection: "column"
                 },
-                innerHTML: "<span style=\"text-shadow: 1px 1px rgb(0 0 0 / 40%)\">Zariffs Cheats</span>"
+                innerHTML: "<span style=\"text-shadow: 1px 1px rgb(0 0 0 / 40%)\">Made by Matt</span>"
             },
                 createElement("a", {
                     className: "bigButton",
@@ -1358,7 +1358,7 @@
                     } catch { }
                 })()
             },
-       
+
         ],
         brawl: [
             {
@@ -2341,7 +2341,7 @@
                         this.enabled = true;
                         this.data = setInterval(() => {
                             stateNode.choosePrize = function (i) {
-                                stateNode.state.choices[i] = { type: "steal", val: 3, text: "I like little children", blook: "Unicorn" };
+                                stateNode.state.choices[i] = { type: "multiply", val: 3, text: "Triple Gold!", blook: "Unicorn" };
                                 stateNode._choosePrize(i);
                             }
                         }, 50);
@@ -2366,7 +2366,7 @@
                         this.enabled = true;
                         this.data = setInterval(() => {
                             stateNode.choosePrize = function (i) {
-                                stateNode.state.choices[i] = { type: "multiply", val: 200, text: "I warned you pal...", blook: "Unicorn" };
+                                stateNode.state.choices[i] = { type: "multiply", val: 200, text: "I warned you pal...", blook: "Rainbow Astronaut" };
                                 stateNode._choosePrize(i);
                             }
                         }, 50);
@@ -2491,32 +2491,59 @@
                 }
             },
             {
-    name: "Set Other Player's Gold",
-    description: "Sets other player's gold to a custom amount",
-    inputs: [{
-        name: "Player",
-        type: "options",
-        options: () => {
-            let { stateNode } = Object.values(document.querySelector('body div[class*="camelCase"]'))[1].children[0]._owner;
-            return new Promise(res => stateNode.props.liveGameController._liveApp ? stateNode.props.liveGameController.getDatabaseVal("c", (players) => players && res(Object.keys(players))) : res([]));
-        }
-    },
-    {
-        name: "Gold Amount",
-        type: "number"
-    }],
-    run: function (target, customAmount) {
-        let { stateNode } = Object.values(document.querySelector('body div[class*="camelCase"]'))[1].children[0]._owner;
-        stateNode.props.liveGameController.setVal({
-            path: `c/${target}`,
-            val: {
-                b: stateNode.props.client.blook,
-                g: customAmount
-            }
-        });
-    }
-},
-
+                name: "Set others gold",
+                description: "Sets a player's gold",
+                inputs: [
+                    {
+                    name: "Player",
+                    type: "options",
+                    options: () => {
+                        let { stateNode } = Object.values(document.querySelector('body div[class*="camelCase"]'))[1].children[0]._owner;
+                        return new Promise(res => stateNode.props.liveGameController._liveApp ? stateNode.props.liveGameController.getDatabaseVal("c", (players) => players && res(Object.keys(players))) : res([]));
+                    },
+                },
+                {
+                        name: "Amount",
+                        type: "number"
+                    },
+                ],
+                run: function (target,ammount) {
+                    let { stateNode: { props, state } } = Object.values(document.querySelector('body div[class*="camelCase"]'))[1].children[0]._owner;
+                    props.liveGameController.setVal({
+                        path: "c/".concat(props.client.name),
+                        val: {
+                            b: props.client.blook,
+                            g: state.gold,
+                            tat: `${target}:swap:${ammount}`
+                        }
+                    });
+                }
+            },
+                        {
+                name: "Set others gold million",
+                description: "Sets a player's gold million",
+                inputs: [
+                    {
+                    name: "Player",
+                    type: "options",
+                    options: () => {
+                        let { stateNode } = Object.values(document.querySelector('body div[class*="camelCase"]'))[1].children[0]._owner;
+                        return new Promise(res => stateNode.props.liveGameController._liveApp ? stateNode.props.liveGameController.getDatabaseVal("c", (players) => players && res(Object.keys(players))) : res([]));
+                    },
+                }
+                ],
+                run: function (target) {
+                    let { stateNode: { props, state } } = Object.values(document.querySelector('body div[class*="camelCase"]'))[1].children[0]._owner;
+                    props.liveGameController.setVal({
+                        path: "c/".concat(props.client.name),
+                        val: {
+                            b: props.client.blook,
+                            g: state.gold,
+                            tat: `${target}:swap:10000000000000000000000000`
+                        }
+                    });
+                }
+            },
             {
                 name: "Swap Gold",
                 description: "Swaps gold with someone",
